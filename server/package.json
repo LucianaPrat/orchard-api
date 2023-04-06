@@ -1,0 +1,36 @@
+{
+  "name": "backend-template",
+  "version": "1.0.0",
+  "description": "app_name is a system that provides Human Resources services to companies.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "nodemon --exec npm run babel-node -- src/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "babel-node": "babel-node --presets=@babel/preset-env"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.0",
+    "joi": "^17.6.3",
+    "jsonwebtoken": "^9.0.0",
+    "mysql": "github:mysqljs/mysql",
+    "nodemon": "^2.0.15",
+    "promise-mysql": "^5.2.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/mysql": "^2.15.21",
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}

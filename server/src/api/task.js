@@ -1,4 +1,3 @@
- 
 const getAllTasks = async (req, res) => {
   try {
     return res.status(200).json({
@@ -68,7 +67,7 @@ const editTask = async (req, res) => {
   try {
     const { id } = req.params;
     // const tasks = await Tasks.findByIdAndUpdate({ _id: id }, req.body, {
-    //   new: true,
+    //   new: true,suc
     // });
 
     // if (!tasks) {
