@@ -2,9 +2,16 @@ import { createOrchard } from "../services/orchard";
 
 const create = async (req, res) => {
   try {
-    const { name, city, width, height, fkUser } = req.body;
+    const { orchardName, city, width, height } = req.body;
+    const { email } = req.headers;
 
-    const newOrchard = await createOrchard(name, city, width, height, fkUser);
+    const newOrchard = await createOrchard(
+      orchardName,
+      city,
+      width,
+      height,
+      email
+    );
 
     return res.status(200).json({
       message: `Created successfully.`,

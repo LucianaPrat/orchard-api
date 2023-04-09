@@ -1,5 +1,6 @@
 import express from "express";
 import { createOrchard } from "../api/orchard";
+import { authCheck } from "../middlewares/auth";
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ const router = express.Router();
  *           schema:
  *             login:
  *               properties:
- *                 name:
+ *                 orchardName:
  *                   type: string
  *                 city:
  *                   type: string
@@ -27,14 +28,25 @@ const router = express.Router();
  *                 height:
  *                   type: string
  *           example:
- *             name: MyOrchard
+ *             orchardName: MyOrchard
  *             city: Montevideo
  *             width: 60
  *             height: 100
+ *     parameters:
+ *       - in: header
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *       - in: header
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
  *     responses:
  *       200:
  *         description: Returns the recently created orchard
  */
-router.put("/", createOrchard);
+router.put("/", authCheck, createOrchard);
 
 export default router;

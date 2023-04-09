@@ -1,28 +1,12 @@
-// const jwt = require("jsonwebtoken");
-// import { existUser } from "../data-access/user";
-
-import jwt from "jsonwebtoken";
-
-const fs = require("fs");
-
-var Promise = require("bluebird");
-var jwtVerifyAsync = Promise.promisify(jwt.verify, jwt);
+import { checkAuth } from "../services/auth";
 
 export const authCheck = async (req, res, next) => {
   try {
-    const token = req.headers.token;
+    const email = req.headers.email;
+    const { token } = req.cookies;
 
-    // verify issuer
-    const cert = fs.readFileSync("public-key.pem"); // get public key
-    const decodedToken = await jwtVerifyAsync(token, cert, {
-      algorithms: ["RS256"],
-      audience: "urn:orchard",
-      issuer: "urn:orchard",
-      subject: "urn:orchard",
-    });
-
-    const decodedEmail = decodedToken.data;
-    if (decodedEmail === req.headers.email) {
+    const authorized = await checkAuth(token, email);
+    if (authorized) {
       next();
     } else {
       res.status(401).json({

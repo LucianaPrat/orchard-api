@@ -5,7 +5,9 @@ import routes from "./routes";
 const app = express();
 
 const swaggerJsdoc = require("swagger-jsdoc");
+var cookieParser = require("cookie-parser");
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({

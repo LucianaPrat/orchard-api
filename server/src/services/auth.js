@@ -1,6 +1,9 @@
-import { existUser, getUser } from "../data-access/user";
+import { existUser, getUser, updateOnboardedCol } from "../data-access/user";
 
 import jwt from "jsonwebtoken";
+
+var Promise = require("bluebird");
+var jwtVerifyAsync = Promise.promisify(jwt.verify, jwt);
 
 const fs = require("fs");
 
@@ -40,4 +43,26 @@ const getProfile = async (email) => {
   }
 };
 
-export { login, getProfile };
+const checkAuth = async (token, headerEmail) => {
+  // verify issuer
+  const cert = fs.readFileSync("public-key.pem"); // get public key
+  const decodedToken = await jwtVerifyAsync(token, cert, {
+    algorithms: ["RS256"],
+    audience: "urn:orchard",
+    issuer: "urn:orchard",
+    subject: "urn:orchard",
+  });
+
+  const decodedEmail = decodedToken.data;
+  return decodedEmail === headerEmail;
+};
+
+const updateOnboarded = async (email, onboarded) => {
+  try {
+    await updateOnboardedCol(email, onboarded);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export { login, getProfile, checkAuth, updateOnboarded };

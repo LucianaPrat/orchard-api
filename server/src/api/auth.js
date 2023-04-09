@@ -1,4 +1,9 @@
-import { login, getProfile } from "./../services/auth";
+import {
+  login,
+  getProfile,
+  checkAuth,
+  updateOnboarded,
+} from "./../services/auth";
 
 const loginUserApi = async (req, res) => {
   try {
@@ -58,4 +63,51 @@ const getProfileApi = async (req, res) => {
   }
 };
 
-export { loginUserApi as login, getProfileApi as getProfile };
+const checkApi = async (req, res) => {
+  try {
+    const token = req.headers.token;
+    const email = req.headers.email;
+    console.log(token);
+    console.log(email);
+    const authorized = await checkAuth(token, email);
+
+    return res.status(200).json({
+      message: `OK.`,
+      data: { check: authorized },
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.toString(),
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+const updateOnboardedApi = async (req, res) => {
+  try {
+    const email = req.headers.email;
+    const { onboarded } = req.body;
+    await updateOnboarded(email, onboarded);
+
+    return res.status(200).json({
+      message: `OK.`,
+      data: {},
+      error: false,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.toString(),
+      data: undefined,
+      error: true,
+    });
+  }
+};
+
+export {
+  loginUserApi as login,
+  getProfileApi as getProfile,
+  checkApi as check,
+  updateOnboardedApi as updateOnboarded,
+};
